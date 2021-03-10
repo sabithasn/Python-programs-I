@@ -126,4 +126,3 @@ def get_file_or_folder_age(path):
 
 if __name__ == '__main__':
 	main()
-© 2021 GitHub, Inc.
