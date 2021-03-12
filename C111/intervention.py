@@ -5,14 +5,31 @@ import random
 import pandas as pd 
 import csv
 
-datafile = pd.read_csv("studentMarks.csv")
-data =datafile["Math_score"].tolist()
+def random_set_of_means(counter):
+    datafile = pd.read_csv("School1.csv")
+    data =datafile["Math_score"].tolist()
+    dataset = []
+    for i in range (0, counter):
+        random_index = random.randint(0,len(data)-1)
+        value = data[random_index]
+        dataset.append(value)
 
-fig = ff.create_distplot([data], ["average"], show_hist=False)
-fig.show()
+    mean = statistics.mean(dataset)
+    #print("Average = ",mean)
+    return mean
 
-population_mean = statistics.mean(data)
-std_deviation=statistics.stdev(data)
-print( "Mean of population  :- ", mean)
-print( "Standard Deviation  of population  :- ", std_deviation)
-   
+def show_fig(mean_list):
+    datafile= mean_list
+    fig = ff.create_distplot([datafile], ["average"], show_hist=False)
+    fig.add_trace(go.Scatter(x=["average", "average"], y=[0, 0.20], mode="lines", name="MEAN"))
+    fig.show()
+
+def setup():
+    mean_list= []
+    for i in range (0,1000):
+        set_of_means = random_set_of_means(100)
+        mean_list.append(set_of_means)
+    std_deviation=statistics.stdev(mean_list)
+    print( "Standard Deviation of sampling mean :- ", std_deviation)
+    show_fig(mean_list)
+setup()
