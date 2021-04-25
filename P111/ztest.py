@@ -5,9 +5,15 @@ import random
 import pandas as pd 
 import csv
 
+df = pd.read_csv("medium_data.csv")
+data = df["reading_time"].tolist()
+fig = ff.create_distplot([data], ["reading_time"], show_hist=False)
+fig.show()
+mean = statistics.mean(data)
+std_deviation = statistics.stdev(data)
+print("population mean:- ", mean)
+
 def random_set_of_means(counter):
-    datafile = pd.read_csv("medium_data.csv")
-    data =datafile["claps"].tolist()
     dataset = []
     for i in range (0, counter):
         random_index = random.randint(0,len(data)-1)
@@ -25,16 +31,12 @@ def show_fig(mean_list):
     fig.show()
 
 def setup():
-    df = pd.read_csv("medium_data.csv")
-    fulldata = df["claps"].tolist()
-    #Calculating the mean and the standard deviation
-    mean = sum(fulldata) / len(fulldata)
-    std_deviation = statistics.stdev(fulldata)
+      
     first_std_deviation_start, first_std_deviation_end = mean-std_deviation, mean+std_deviation
     second_std_deviation_start, second_std_deviation_end = mean-(2*std_deviation), mean+(2*std_deviation)
     third_std_deviation_start, third_std_deviation_end = mean-(3*std_deviation), mean+(3*std_deviation)
     #Plotting the chart, and lines for mean, 1 standard deviation and 2 standard deviations
-    fig = ff.create_distplot([data], ["claps"], show_hist=False)
+    fig = ff.create_distplot([data], ["reading_time"], show_hist=False)
     fig.add_trace(go.Scatter(x=[mean, mean], y=[0, 0.17], mode="lines", name="MEAN"))
     fig.add_trace(go.Scatter(x=[first_std_deviation_start, first_std_deviation_start], y=[0, 0.17], mode="lines", name="STANDARD DEVIATION 1"))
     fig.add_trace(go.Scatter(x=[first_std_deviation_end, first_std_deviation_end], y=[0, 0.17], mode="lines", name="STANDARD DEVIATION 1"))
